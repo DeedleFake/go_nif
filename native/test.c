@@ -10,7 +10,7 @@
 		return enif_make_badarg(env); \
 	}
 
-#define str_to_binary(str) enif_make_binary(env, &(ErlNifBinary){ .data = (str), .size = strlen((str)) })
+#define str_to_binary(str) enif_make_binary(env, &(ErlNifBinary){ .data = (unsigned char *)(str), .size = strlen((str)) })
 #define binary_to_str(binary, result) \
 	result = malloc((binary).size + 1); \
 	memcpy((result), (binary).data, (binary).size); \

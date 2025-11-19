@@ -10,8 +10,20 @@ defmodule Mix.Tasks.Compile.GoNif do
     System.find_executable("go")
     |> System.cmd(["build", "-v", "-buildmode=c-shared", "-o", output, "./native"])
     |> case do
-      {_, 0} -> :ok
-      {output, _} -> {:error, output}
+      {_, 0} ->
+        :ok
+
+      {output, _} ->
+        {:error,
+         [
+           %Mix.Task.Compiler.Diagnostic{
+             compiler_name: "go_nif",
+             file: nil,
+             position: 0,
+             severity: :error,
+             message: output
+           }
+         ]}
     end
   end
 
