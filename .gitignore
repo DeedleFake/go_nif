@@ -24,3 +24,4 @@ go_nif-*.tar
 
 /.expert/
 /.elixir_ls/
+/priv/nifs/
