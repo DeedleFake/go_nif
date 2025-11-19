@@ -4,6 +4,12 @@
 
 #define ok(val) enif_make_tuple2(env, enif_make_atom(env, "ok"), (val))
 #define error(val) enif_make_tuple2(env, enif_make_atom(env, "error"), (val))
+
+#define must(check) \
+	if (!(check)) { \
+		return enif_make_badarg(env); \
+	}
+
 #define str_to_binary(str) enif_make_binary(env, &(ErlNifBinary){ .data = (str), .size = strlen((str)) })
 #define binary_to_str(binary, result) \
 	result = malloc((binary).size + 1); \
@@ -16,7 +22,7 @@ static ERL_NIF_TERM _get_dirty(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv
 
 	struct get_return rsp;
 
-	enif_inspect_binary(env, argv[0], &url);
+	must(enif_inspect_binary(env, argv[0], &url));
 	binary_to_str(url, url_str);
 
 	rsp = get(url_str);
